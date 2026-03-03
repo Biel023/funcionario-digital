@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funcionário Digital | Nuxter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'nuxter-black': '#0a0a0a',
+            'nuxter-dark': '#111111',
+            'nuxter-green': '#10b981',
+            'nuxter-green-light': '#34d399',
+          },
+          keyframes: {
+            'fade-in': {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'fade-in-up': {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'typing': {
+              '0%': { width: '0' },
+              '100%': { width: '100%' },
+            },
+            'blink': {
+              '0%, 49%': { borderColor: 'transparent' },
+              '50%, 100%': { borderColor: 'currentColor' },
+            },
+            'pulse-glow': {
+              '0%, 100%': { boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' },
+              '50%': { boxShadow: '0 0 40px rgba(16, 185, 129, 0.6)' },
+            },
+            'float': {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            'slide-in-right': {
+              '0%': { opacity: '0', transform: 'translateX(30px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            'scale-in': {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            'gradient-shift': {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+          },
+          animation: {
+            'fade-in': 'fade-in 0.8s ease-out forwards',
+            'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+            'typing': 'typing 3s steps(30, end)',
+            'blink': 'blink 1s infinite',
+            'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+            'float': 'float 3s ease-in-out infinite',
+            'slide-in-right': 'slide-in-right 0.8s ease-out forwards',
+            'scale-in': 'scale-in 0.6s ease-out forwards',
+            'gradient-shift': 'gradient-shift 8s ease infinite',
+          },
+          backgroundSize: {
+            'gradient': '200% 200%',
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body { 
+      font-family: 'Inter', system-ui, sans-serif; 
+      background: #ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(16, 185, 129, 0.5);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(16, 185, 129, 0.8);
+    }
+
+    .card-appear {
+      animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    .stagger-item {
+      opacity: 0;
+      animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    .stagger-item:nth-child(1) { animation-delay: 0.1s; }
+    .stagger-item:nth-child(2) { animation-delay: 0.2s; }
+    .stagger-item:nth-child(3) { animation-delay: 0.3s; }
+    .stagger-item:nth-child(4) { animation-delay: 0.4s; }
+    .stagger-item:nth-child(5) { animation-delay: 0.5s; }
+    .stagger-item:nth-child(6) { animation-delay: 0.6s; }
+
+    .typing-animation {
+      overflow: hidden;
+      border-right: 2px solid currentColor;
+      white-space: nowrap;
+      animation: typing 2s steps(40, end), blink 0.75s step-end infinite;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+    }
+
+    .hover-scale {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-glow {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-glow::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: left 0.5s;
+    }
+    .btn-glow:hover::before {
+      left: 100%;
+    }
+
+    .hero-bg {
+      background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(16, 185, 129, 0.35), rgba(16, 185, 129, 0.15), transparent);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .counter {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #10b981;
+    }
+
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .pulse-soft {
+      animation: pulse-soft 2s ease-in-out infinite;
+    }
+
+    .card-reflection {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-reflection::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .carousel-wrapper {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 0.75rem;
+      animation: slide 40s linear infinite;
+    }
+
+    .carousel-item {
+      flex: 0 0 calc(33.333% - 0.5rem);
+      min-width: calc(33.333% - 0.5rem);
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .carousel-item {
+        flex: 0 0 calc(50% - 0.5rem);
+        min-width: calc(50% - 0.5rem);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .carousel-item {
+        flex: 0 0 100%;
+        min-width: 100%;
+      }
+    }
+
+    .feature-card {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+    }
+
+    .section-reveal {
+      opacity: 0;
+      animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    .interactive-element {
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .interactive-element:hover {
+      transform: translateY(-5px);
+    }
+
+    @keyframes dot-bounce {
+      0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      margin: 0 2px;
+      animation: dot-bounce 1.4s infinite;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+  </style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+  <!-- Nav -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 transition-all duration-300" id="header">
+    <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 text-gray-900 font-semibold text-lg hover:scale-105 transition">
+        <span class="text-nuxter-green font-mono font-bold text-xl">Nuxter</span>
+        <span class="text-gray-600 text-sm font-normal hidden sm:inline">| Digital Employee</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#solucao" class="text-gray-600 hover:text-nuxter-green transition text-sm font-medium">Soluções</a>
+        <a href="#funcionarios" class="text-gray-600 hover:text-nuxter-green transition text-sm font-medium">Funcionários</a>
+        <a href="#como-funciona" class="text-gray-600 hover:text-nuxter-green transition text-sm font-medium">Como funciona</a>
+        <a href="#contato" class="text-gray-600 hover:text-nuxter-green transition text-sm font-medium">Contato</a>
+        <a href="https://wa.me/5548992250653?text=Olá! Gostaria de conhecer o Funcionário Digital da Nuxter." target="_blank" rel="noopener" class="bg-nuxter-green hover:bg-nuxter-green-light text-gray-900 font-semibold px-4 py-2 rounded-lg transition text-sm btn-glow">Falar com especialista</a>
+      </div>
+      <button type="button" id="menuBtn" class="md:hidden p-2 text-gray-600 hover:text-nuxter-green rounded-lg transition" aria-label="Abrir menu">
+        <i id="menuIcon" class="fas fa-bars w-6 h-6"></i>
+      </button>
+    </nav>
+    <div id="menuMobile" class="hidden md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-gray-200 px-6 py-4 flex flex-col gap-3 animate-fade-in">
+      <a href="#solucao" class="text-gray-600 hover:text-nuxter-green py-2 transition">Soluções</a>
+      <a href="#funcionarios" class="text-gray-600 hover:text-nuxter-green py-2 transition">Funcionários</a>
+      <a href="#como-funciona" class="text-gray-600 hover:text-nuxter-green py-2 transition">Como funciona</a>
+      <a href="#contato" class="text-gray-600 hover:text-nuxter-green py-2 transition">Contato</a>
+      <a href="https://wa.me/5548992250653?text=Olá! Gostaria de conhecer o Funcionário Digital da Nuxter." target="_blank" rel="noopener" class="bg-nuxter-green text-gray-900 font-semibold px-4 py-3 rounded-lg text-center transition">Falar com especialista</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section with Interactive Chat Demo -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center pt-20 pb-16 px-6 relative overflow-hidden bg-gradient-to-b from-green-50 via-white to-white">
+      <!-- Animated background elements -->
+      <div class="absolute inset-0 hero-bg"></div>
+      <div class="absolute top-20 -left-40 w-80 h-80 bg-nuxter-green/25 rounded-full blur-3xl opacity-70"></div>
+      <div class="absolute bottom-20 -right-40 w-96 h-96 bg-nuxter-green/20 rounded-full blur-3xl opacity-60"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-nuxter-green/15 rounded-full blur-3xl opacity-50"></div>
+      
+      <div class="max-w-6xl mx-auto w-full relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <!-- Left content -->
+          <div class="animate-fade-in">
+            <p class="text-nuxter-green font-medium text-xs uppercase tracking-widest mb-3 opacity-0 animate-fade-in" style="animation-delay: 0.2s;"><i class="fas fa-robot"></i> Nux - Funcionário Digital IA</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-4 opacity-0 animate-fade-in" style="animation-delay: 0.3s;">
+              Automatize sua <span class="gradient-text">operação</span>
+            </h1>
+            <p class="text-base text-gray-600 max-w-xl mb-2 opacity-0 animate-fade-in leading-relaxed" style="animation-delay: 0.4s;">IA especializada que lê emails, responde automaticamente, gera relatórios e cobra pendências. 24/7.</p>
+            <p class="text-xs text-nuxter-green opacity-0 animate-fade-in mb-6" style="animation-delay: 0.45s;"><i class="fas fa-link mr-1"></i> Integrado com WhatsApp, Telegram e Instagram</p>
+            <div class="flex flex-col sm:flex-row gap-3 opacity-0 animate-fade-in" style="animation-delay: 0.5s;">
+              <button type="button" id="btnTestarGrátis" class="inline-flex items-center justify-center bg-nuxter-green hover:bg-nuxter-green-light text-gray-900 font-semibold px-6 py-3 rounded-lg transition text-base cursor-pointer btn-glow hover-scale duration-300 shadow-lg shadow-nuxter-green/30">
+                <i class="fas fa-play mr-2 text-sm"></i> Testar
+              </button>
+              <a href="#funcionarios" class="inline-flex items-center justify-center border border-nuxter-green/50 hover:border-nuxter-green text-gray-900 font-medium px-6 py-3 rounded-lg transition text-base hover-scale duration-300">
+                Soluções <i class="fas fa-arrow-right ml-2 text-sm"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right side: Interactive Chat Demo -->
+          <div class="hidden md:flex flex-col relative opacity-0 animate-slide-in-right" style="animation-delay: 0.4s;">
+            <!-- Chat container -->
+            <div class="bg-gradient-to-br from-gray-50 to-white backdrop-blur-xl border border-gray-300 rounded-2xl p-6 shadow-2xl shadow-gray-400/10 h-96 flex flex-col">
+              <!-- Chat header -->
+              <div class="flex items-center gap-3 pb-4 border-b border-gray-200">
+                <div class="w-3 h-3 rounded-full bg-nuxter-green animate-pulse-soft"></div>
+                <span class="font-semibold text-gray-900">Atendente IA</span>
+                <span class="text-xs text-gray-400 ml-auto">Ativo agora</span>
+              </div>
+
+              <!-- Messages -->
+              <div class="flex-1 overflow-y-auto py-4 space-y-4 custom-scroll">
+                <!-- User message -->
+                <div class="flex justify-end">
+                  <div class="bg-nuxter-green text-gray-900 rounded-2xl rounded-tr-sm px-4 py-2 max-w-xs text-sm animate-fade-in font-medium" style="animation-delay: 0.6s;">
+                    Preciso responder a 50 emails hoje
+                  </div>
+                </div>
+
+                <!-- Bot response with typing -->
+                <div class="flex justify-start">
+                  <div class="bg-gray-100 border border-gray-300 text-gray-900 rounded-2xl rounded-tl-sm px-4 py-3 max-w-xs text-sm animate-fade-in" style="animation-delay: 0.8s;">
+                    <div class="typing-animation inline-block">
+                      Pronto! Processando...
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Result message -->
+                <div class="flex justify-start">
+                  <div class="bg-green-50 border border-green-300 text-gray-900 rounded-2xl rounded-tl-sm px-4 py-3 max-w-xs text-sm space-y-1 animate-fade-in" style="animation-delay: 1.2s;">
+                    <p><i class="fas fa-check text-green-500 mr-1"></i> 47 respostas enviadas</p>
+                    <p><i class="fas fa-check text-green-500 mr-1"></i> 3 para revisão manual</p>
+                    <p><i class="fas fa-clock text-blue-500 mr-1"></i> Tempo: 2 minutos</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input -->
+              <div class="pt-4 border-t border-gray-200">
+                <div class="flex gap-2 items-center">
+                  <input type="text" placeholder="Digite uma mensagem..." class="flex-1 px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-nuxter-green focus:outline-none text-sm" disabled />
+                  <button class="p-2 rounded-lg bg-nuxter-green/20 text-nuxter-green hover:bg-nuxter-green/40 transition" disabled>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating badge -->
+            <div class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-nuxter-green/20 border border-nuxter-green/40 text-gray-900 text-xs font-semibold px-4 py-2 rounded-full backdrop-blur-sm animate-float">
+              <i class="fas fa-bolt mr-1"></i> Processando em tempo real
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="solucao" class="py-16 px-6 bg-gradient-to-b from-gray-50 to-white border-y border-gray-200">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold text-gray-900">O Desafio</h2>
+          <p class="text-gray-600 text-base mt-2">Automatizar operações complexas sem complicar o dia a dia.</p>
+        </div>
+        
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-lg bg-red-50 border border-red-200 hover:bg-red-100 transition">
+            <div class="flex items-start gap-3 mb-2">
+              <i class="fas fa-ban text-red-500 text-lg mt-0.5"></i>
+              <p class="font-semibold text-gray-900 text-sm">Processos Manuais</p>
+            </div>
+            <p class="text-xs text-red-700 ml-10">15 horas/semana perdidas em tarefas repetitivas</p>
+          </div>
+          <div class="p-4 rounded-lg bg-red-50 border border-red-200 hover:bg-red-100 transition">
+            <div class="flex items-start gap-3 mb-2">
+              <i class="fas fa-random text-red-500 text-lg mt-0.5"></i>
+              <p class="font-semibold text-gray-900 text-sm">Informação Dispersa</p>
+            </div>
+            <p class="text-xs text-red-700 ml-10">Dados em emails, planilhas e sistemas diferentes</p>
+          </div>
+          <div class="p-4 rounded-lg bg-red-50 border border-red-200 hover:bg-red-100 transition">
+            <div class="flex items-start gap-3 mb-2">
+              <i class="fas fa-hourglass-end text-red-500 text-lg mt-0.5"></i>
+              <p class="font-semibold text-gray-900 text-sm">Respostas Lentas</p>
+            </div>
+            <p class="text-xs text-red-700 ml-10">Clientes esperando 24h por uma simples resposta</p>
+          </div>
+          <div class="p-4 rounded-lg bg-red-50 border border-red-200 hover:bg-red-100 transition">
+            <div class="flex items-start gap-3 mb-2">
+              <i class="fas fa-money-bill text-red-500 text-lg mt-0.5"></i>
+              <p class="font-semibold text-gray-900 text-sm">Custo Alto</p>
+            </div>
+            <p class="text-xs text-red-700 ml-10">Múltiplos colaboradores = grande folha de pagamento</p>
+          </div>
+        </div>
+
+        <div class="mt-10 p-5 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border border-green-300">
+          <div class="flex items-start gap-3 mb-1">
+            <i class="fas fa-lightbulb text-nuxter-green text-lg"></i>
+            <p class="text-nuxter-green font-semibold text-sm">A Solução</p>
+          </div>
+          <p class="text-gray-900 text-sm ml-8">Um funcionário digital cobre múltiplas funções. Escale sem multiplicar a equipe. Economia de até 80% em custos operacionais.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Employees Section -->
+    <section id="funcionarios" class="py-20 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">Agente Nux - Especializado em Vendas, Suporte e Administração</h2>
+          <p class="text-gray-600 text-lg">Múltiplos perfis para cada necessidade do seu negócio.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="feature-card p-5 rounded-lg card-reflection hover-scale transition duration-300 group border border-gray-200 bg-white hover:bg-gray-50">
+            <div class="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-nuxter-green/20 text-nuxter-green group-hover:bg-nuxter-green/40 transition">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 mb-2">Financeiro</h3>
+            <p class="text-gray-600 text-sm">Concilia lançamentos, acompanha fluxo de caixa e gera relatórios.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-lg card-reflection hover-scale transition duration-300 group border border-gray-200 bg-white hover:bg-gray-50">
+            <div class="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-nuxter-green/20 text-nuxter-green group-hover:bg-nuxter-green/40 transition">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 mb-2">Cobrança</h3>
+            <p class="text-gray-600 text-sm">Lembretes educados, follow-ups automáticos sem alienar clientes.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-lg card-reflection hover-scale transition duration-300 group border border-gray-200 bg-white hover:bg-gray-50">
+            <div class="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-nuxter-green/20 text-nuxter-green group-hover:bg-nuxter-green/40 transition">
+              <i class="fas fa-box"></i>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 mb-2">Compras</h3>
+            <p class="text-gray-600 text-sm">Processa pedidos, confirma fornecedores e atualiza estoque.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-lg card-reflection hover-scale transition duration-300 group border border-gray-200 bg-white hover:bg-gray-50">
+            <div class="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-nuxter-green/20 text-nuxter-green group-hover:bg-nuxter-green/40 transition">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 mb-2">RH</h3>
+            <p class="text-gray-600 text-sm">Triagem de currículos, respostas personalizadas e agendamento.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-lg card-reflection hover-scale transition duration-300 group border border-gray-200 bg-white hover:bg-gray-50">
+            <div class="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-nuxter-green/20 text-nuxter-green group-hover:bg-nuxter-green/40 transition">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 mb-2">Suporte</h3>
+            <p class="text-gray-600 text-sm">Responde dúvidas 24/7, abre chamados, consulta base de conhecimento.</p>
+          </div>
+
+          <div class="feature-card p-5 rounded-lg card-reflection hover-scale transition duration-300 group border border-gray-200 bg-white hover:bg-gray-50">
+            <div class="mb-3 inline-flex items-center justify-center w-10 h-10 rounded-lg bg-nuxter-green/20 text-nuxter-green group-hover:bg-nuxter-green/40 transition">
+              <i class="fas fa-sliders-h"></i>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 mb-2">Custom</h3>
+            <p class="text-gray-600 text-sm">Personalize totalmente com as funções que você precisa.</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <button type="button" id="btnTestarGrátis2" class="inline-flex items-center justify-center bg-nuxter-green hover:bg-nuxter-green-light text-gray-900 font-bold px-8 py-4 rounded-lg transition text-lg cursor-pointer btn-glow hover-scale duration-300 shadow-lg shadow-nuxter-green/30">
+            <i class="fas fa-flask mr-2"></i> Comece agora
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="como-funciona" class="py-20 px-6 bg-gradient-to-b from-gray-50 to-white border-y border-gray-200">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-gray-900 mb-2">Como Funciona</h2>
+          <p class="text-gray-600">IA + Automação trabalhando 24/7 para você</p>
+        </div>
+
+        <div class="carousel-wrapper">
+          <div class="carousel-track">
+            <!-- First set of cards -->
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-envelope text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Lê mensagens automaticamente</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-brain text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">IA processa e entende</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-edit text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Redige respostas naturais</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-sync text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Atualiza sistemas em tempo real</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-chart-pie text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Gera relatórios e insights</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-zap text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Tudo em menos de 5 segundos</span>
+              </div>
+            </div>
+            <!-- Duplicated set for seamless loop -->
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-envelope text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Lê mensagens automaticamente</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-brain text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">IA processa e entende</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-edit text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Redige respostas naturais</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-sync text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Atualiza sistemas em tempo real</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-chart-pie text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Gera relatórios e insights</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="flex items-center gap-3 p-4 rounded-lg bg-white border border-gray-300 hover:border-nuxter-green hover:bg-gray-50 transition h-full">
+                <i class="fas fa-zap text-nuxter-green text-2xl w-12 flex-shrink-0"></i>
+                <span class="text-gray-900 text-sm font-medium">Tudo em menos de 5 segundos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contato" class="py-20 px-6 relative overflow-hidden bg-white">
+      <div class="absolute inset-0 -z-10">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-nuxter-green/5 rounded-full blur-3xl opacity-40"></div>
+      </div>
+      
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Pronto para começar?</h2>
+        <p class="text-gray-600 text-lg mb-8">Crie seu funcionário digital em minutos e veja a diferença na sua operação.</p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button type="button" id="btnTestarGrátis3" class="inline-flex items-center justify-center bg-nuxter-green hover:bg-nuxter-green-light text-gray-900 font-bold px-8 py-4 rounded-lg transition text-lg btn-glow hover-scale duration-300 shadow-lg shadow-nuxter-green/30">
+            <i class="fas fa-play mr-2"></i> Testar Agora
+          </button>
+          <a href="https://wa.me/5548992250653?text=Olá! Gostaria de conhecer o Funcionário Digital da Nuxter." target="_blank" rel="noopener" class="inline-flex items-center justify-center border-2 border-nuxter-green text-nuxter-green font-bold px-8 py-4 rounded-lg hover:bg-nuxter-green/10 transition text-lg hover-scale duration-300">
+            <i class="fas fa-comment mr-2"></i> Falar com especialista
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 px-6 border-t border-gray-200 bg-white">
+      <div class="max-w-6xl mx-auto text-center text-gray-500 text-sm">
+        <p>© 2026 Nuxter. Transformando o futuro do trabalho com IA.</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal: Escolher funcionário antes do builder -->
+  <div id="testarModal" class="fixed inset-0 z-[90] hidden flex items-center justify-center bg-black/80 backdrop-blur-xl px-4 py-6">
+    <div id="testarModalCard" class="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl shadow-gray-400/20 p-10 transform transition-all duration-300 scale-95 opacity-0 max-h-[90vh] overflow-y-auto">
+      <button type="button" id="fecharModalTestar" class="absolute top-6 right-6 p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition" aria-label="Fechar">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      
+      <div class="space-y-8">
+        <div class="text-center">
+          <p class="text-nuxter-green font-semibold text-xs uppercase tracking-widest mb-3">Comece Agora</p>
+          <h2 class="text-3xl font-bold text-gray-900 mb-2">Qual é seu Nux-IA?</h2>
+          <p class="text-base text-gray-600">Escolha um perfil especializado e customizado para seu negócio</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <button type="button" data-tipo="financeiro" class="agent-type-btn group p-6 rounded-xl border border-gray-200 hover:border-nuxter-green hover:bg-green-50 bg-white transition duration-200 text-left hover:shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 text-nuxter-green mb-4 group-hover:scale-110 transition text-lg">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <p class="font-semibold text-gray-900 text-sm">Financeiro</p>
+            <p class="text-xs text-gray-500 mt-2">Conciliação e relatórios automáticos</p>
+          </button>
+
+          <button type="button" data-tipo="cobranca" class="agent-type-btn group p-6 rounded-xl border border-gray-200 hover:border-nuxter-green hover:bg-green-50 bg-white transition duration-200 text-left hover:shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 text-nuxter-green mb-4 group-hover:scale-110 transition text-lg">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <p class="font-semibold text-gray-900 text-sm">Cobrança</p>
+            <p class="text-xs text-gray-500 mt-2">Lembretes educados e follow-ups</p>
+          </button>
+
+          <button type="button" data-tipo="compras" class="agent-type-btn group p-6 rounded-xl border border-gray-200 hover:border-nuxter-green hover:bg-green-50 bg-white transition duration-200 text-left hover:shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 text-nuxter-green mb-4 group-hover:scale-110 transition text-lg">
+              <i class="fas fa-box"></i>
+            </div>
+            <p class="font-semibold text-gray-900 text-sm">Compras</p>
+            <p class="text-xs text-gray-500 mt-2">Gestão de pedidos e estoque</p>
+          </button>
+
+          <button type="button" data-tipo="rh" class="agent-type-btn group p-6 rounded-xl border border-gray-200 hover:border-nuxter-green hover:bg-green-50 bg-white transition duration-200 text-left hover:shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 text-nuxter-green mb-4 group-hover:scale-110 transition text-lg">
+              <i class="fas fa-users"></i>
+            </div>
+            <p class="font-semibold text-gray-900 text-sm">RH</p>
+            <p class="text-xs text-gray-500 mt-2">Recrutamento e triagem</p>
+          </button>
+
+          <button type="button" data-tipo="suporte" class="agent-type-btn group p-6 rounded-xl border border-gray-200 hover:border-nuxter-green hover:bg-green-50 bg-white transition duration-200 text-left hover:shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 text-nuxter-green mb-4 group-hover:scale-110 transition text-lg">
+              <i class="fas fa-headset"></i>
+            </div>
+            <p class="font-semibold text-gray-900 text-sm">Suporte</p>
+            <p class="text-xs text-gray-500 mt-2">Atendimento 24/7</p>
+          </button>
+
+          <button type="button" data-tipo="custom" class="agent-type-btn group p-6 rounded-xl border border-gray-200 hover:border-nuxter-green hover:bg-green-50 bg-white transition duration-200 text-left hover:shadow-lg">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-green-100 text-nuxter-green mb-4 group-hover:scale-110 transition text-lg">
+              <i class="fas fa-sliders-h"></i>
+            </div>
+            <p class="font-semibold text-gray-900 text-sm">Personalizado</p>
+            <p class="text-xs text-gray-500 mt-2">Crie seu próprio Nux</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Configuração de IA -->
+  <div id="configModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/80 backdrop-blur-xl overflow-y-auto py-6 px-4">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl shadow-gray-400/20">
+      <!-- Header -->
+      <div class="flex items-center justify-between px-8 py-6 border-b border-gray-200">
+        <div>
+          <p class="text-nuxter-green font-semibold text-xs uppercase tracking-widest mb-1">Configure seu</p>
+          <h2 class="text-2xl font-bold text-gray-900">Agente Nux</h2>
+        </div>
+        <button type="button" id="fecharConfigModal" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="px-8 py-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scroll">
+        <!-- Tipo de IA selecionada -->
+        <div class="p-4 rounded-xl bg-green-50 border border-green-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-600 text-xs uppercase letter-spacing font-semibold">Tipo de IA</p>
+              <p class="text-gray-900 font-bold text-base mt-2" id="configTipoIA">-</p>
+            </div>
+            <i class="fas fa-check-circle text-nuxter-green text-2xl"></i>
+          </div>
+        </div>
+
+        <!-- Nome/Descrição -->
+        <div>
+          <label class="block text-gray-900 text-sm font-semibold mb-2">Nome do Agente <span class="text-red-500">*</span></label>
+          <input type="text" id="configNomeIA" placeholder="Ex: Nux Financeiro" class="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-nuxter-green focus:outline-none focus:ring-2 focus:ring-nuxter-green/20 text-sm" value="Meu Nux">
+        </div>
+
+        <!-- Instruções -->
+        <div>
+          <label class="block text-gray-900 text-sm font-semibold mb-2">Instruções Principais <span class="text-red-500">*</span></label>
+          <textarea id="configInstrucoes" placeholder="Descreva o comportamento e objetivos do Nux..." class="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 placeholder-gray-400 focus:border-nuxter-green focus:outline-none focus:ring-2 focus:ring-nuxter-green/20 text-sm h-20 resize-none" value="You are a helpful AI assistant."></textarea>
+        </div>
+
+        <!-- Configurações avançadas -->
+        <div class="space-y-4">
+          <label class="block text-gray-900 text-sm font-semibold">Configurações</label>
+          
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-600 text-xs font-medium">Criatividade</span>
+              <span class="text-nuxter-green font-semibold text-sm" id="tempValue">70%</span>
+            </div>
+            <input type="range" id="configTemperatura" min="0" max="100" value="70" class="w-full">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-900 text-xs font-semibold mb-2">Idioma</label>
+              <select id="configIdioma" class="w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:border-nuxter-green focus:outline-none">
+                <option value="pt-BR">Português</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-900 text-xs font-semibold mb-2">Velocidade</label>
+              <select id="configVelocidade" class="w-full px-4 py-2 rounded-lg bg-gray-100 border border-gray-300 text-gray-900 text-sm focus:border-nuxter-green focus:outline-none">
+                <option value="rapida">Rápida</option>
+                <option value="normal">Normal</option>
+                <option value="cuidadosa">Cuidadosa</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="p-4 rounded-xl bg-gradient-to-br from-green-50 to-white border-2 border-green-100">
+          <p class="text-gray-600 text-xs uppercase font-semibold mb-3">Preview</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+              <i class="fas fa-robot text-nuxter-green text-sm"></i>
+            </div>
+            <div>
+              <p class="text-gray-900 font-semibold text-sm"><span id="previewNomeIA">Meu Nux</span></p>
+              <p class="text-gray-500 text-xs">Pronto para começar ✨</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="flex gap-3 pt-4">
+          <button type="button" id="btnSalvarConfig" class="flex-1 flex items-center justify-center gap-2 bg-nuxter-green hover:bg-nuxter-green-light text-white font-semibold px-6 py-3 rounded-lg transition text-sm">
+            <i class="fas fa-check"></i> Criar Agente
+          </button>
+          <button type="button" id="btnCancelarConfig" class="px-6 py-3 border border-gray-300 hover:border-gray-400 text-gray-900 font-semibold rounded-lg transition text-sm bg-white hover:bg-gray-50">
+            Voltar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Agent Dashboard -->
+    <div id="agentDashboard" class="fixed inset-0 z-[101] bg-white hidden flex flex-col">
+      <!-- Top Navigation -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+          <button type="button" id="btnFecharDashboard" class="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition">
+            <i class="fas fa-arrow-left text-lg"></i>
+          </button>
+          <div>
+            <p class="text-xs text-nuxter-green font-semibold uppercase">Seu Agent</p>
+            <h1 class="text-lg font-bold text-gray-900" id="dashboardAgentName">Meu Nux</h1>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-nuxter-green text-xs font-semibold rounded-full">
+            <span class="w-2 h-2 bg-nuxter-green rounded-full animate-pulse"></span>
+            Ativo
+          </span>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex-1 overflow-hidden flex">
+        <!-- Sidebar -->
+        <div class="w-72 border-r border-gray-200 bg-gray-50 overflow-y-auto flex flex-col">
+          <nav class="p-4 space-y-1 flex-1">
+            <button class="navDashBtn w-full text-left px-4 py-3 rounded-lg bg-nuxter-green/10 text-nuxter-green font-semibold text-sm flex items-center gap-2 mb-2" data-section="historico">
+              <i class="fas fa-comments"></i> Histórico
+            </button>
+            <button class="navDashBtn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-white transition text-sm flex items-center gap-2" data-section="agente">
+              <i class="fas fa-info-circle text-nuxter-green"></i> Sobre o Agente
+            </button>
+            <button class="navDashBtn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-white transition text-sm flex items-center gap-2" data-section="treinar">
+              <i class="fas fa-graduation-cap text-nuxter-green"></i> Treinar
+            </button>
+            <button class="navDashBtn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-white transition text-sm flex items-center gap-2" data-section="ferramentas">
+              <i class="fas fa-wrench text-nuxter-green"></i> Ferramentas
+            </button>
+            <button class="navDashBtn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-white transition text-sm flex items-center gap-2" data-section="integracoes">
+              <i class="fas fa-link text-nuxter-green"></i> Integrações
+            </button>
+            <button class="navDashBtn w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-white transition text-sm flex items-center gap-2" data-section="configuracoes">
+              <i class="fas fa-cog text-gray-600"></i> Configurações
+            </button>
+          </nav>
+          <div class="p-4 border-t border-gray-200 space-y-2">
+            <button class="w-full px-4 py-2 text-gray-700 text-sm font-medium hover:bg-white rounded-lg transition flex items-center gap-2">
+              <i class="fas fa-question-circle"></i> Ajuda
+            </button>
+            <button class="w-full px-4 py-2 text-red-600 text-sm font-medium hover:bg-red-50 rounded-lg transition flex items-center gap-2">
+              <i class="fas fa-trash"></i> Deletar
+            </button>
+          </div>
+        </div>
+
+        <!-- Main Area -->
+        <div class="flex-1 overflow-y-auto">
+          <!-- Histórico Section -->
+          <div id="historicoSection" class="p-8">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Histórico de Conversas</h2>
+              <p class="text-gray-600">Todas as interações do seu Nux</p>
+            </div>
+            
+            <!-- Empty State -->
+            <div class="flex flex-col items-center justify-center py-16 bg-gradient-to-br from-green-50 to-white rounded-2xl border-2 border-dashed border-green-200">
+              <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
+              <p class="text-gray-600 font-medium mb-1">Nenhuma conversa ainda</p>
+              <p class="text-gray-500 text-sm">As interações aparecerão aqui</p>
+            </div>
+          </div>
+
+          <!-- Integrações Section (Hidden by default) -->
+          <div id="integracoesSection" class="p-8 hidden">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Canais de Comunicação</h2>
+              <p class="text-gray-600">Conecte seu Nux aos canais desejados</p>
+            </div>
+
+            <div class="grid gap-4 max-w-2xl">
+              <!-- WhatsApp -->
+              <div class="p-6 border border-gray-200 rounded-xl hover:border-nuxter-green/50 transition group cursor-pointer">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                      <i class="fab fa-whatsapp text-green-600 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">WhatsApp</h3>
+                      <p class="text-sm text-gray-600">Automático via integração</p>
+                    </div>
+                  </div>
+                  <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                    Ativo
+                  </span>
+                </div>
+              </div>
+
+              <!-- Telegram -->
+              <div class="p-6 border border-gray-300 rounded-xl hover:border-nuxter-green/50 transition group cursor-pointer">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <i class="fab fa-telegram text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">Telegram</h3>
+                      <p class="text-sm text-gray-600">Automático via integração</p>
+                    </div>
+                  </div>
+                  <span class="inline-flex items-center px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-full">
+                    Ativo
+                  </span>
+                </div>
+              </div>
+
+              <!-- Instagram -->
+              <div class="p-6 border border-gray-300 rounded-xl hover:border-nuxter-green/50 transition group cursor-pointer">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                      <i class="fab fa-instagram text-purple-600 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">Instagram DM</h3>
+                      <p class="text-sm text-gray-600">Automático via integração</p>
+                    </div>
+                  </div>
+                  <span class="inline-flex items-center px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-full">
+                    Ativo
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Configurações Section (Hidden by default) -->
+          <div id="configuracoesSection" class="p-8 hidden">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Configurações do Agente</h2>
+              <p class="text-gray-600">Ajuste o comportamento do seu Nux</p>
+            </div>
+
+            <div class="max-w-2xl space-y-6">
+              <!-- Nome do Agente -->
+              <div>
+                <label class="block text-gray-900 font-semibold mb-2">Nome</label>
+                <input type="text" value="Meu Nux" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-nuxter-green focus:outline-none">
+              </div>
+
+              <!-- Criatividade -->
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <label class="block text-gray-900 font-semibold">Criatividade</label>
+                  <span class="text-nuxter-green font-semibold text-sm">70%</span>
+                </div>
+                <input type="range" min="0" max="100" value="70" class="w-full">
+                <p class="text-xs text-gray-500 mt-2">Controla a liberdade de pensa</p>
+              </div>
+
+              <!-- Idioma -->
+              <div>
+                <label class="block text-gray-900 font-semibold mb-2">Idioma</label>
+                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-nuxter-green focus:outline-none">
+                  <option>Português (Brasil)</option>
+                  <option>English</option>
+                  <option>Español</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sobre o Agente Section (Hidden by default) -->
+          <div id="agenteSection" class="p-8 hidden">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Sobre seu Agente</h2>
+              <p class="text-gray-600">Detalhes e informações do seu Nux</p>
+            </div>
+
+            <div class="max-w-2xl space-y-6">
+              <div class="p-6 bg-gradient-to-br from-green-50 to-white rounded-xl border border-green-200">
+                <p class="text-xs text-gray-600 font-semibold uppercase mb-2">Status</p>
+                <div class="flex items-center gap-2 mb-4">
+                  <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                  <p class="text-lg font-bold text-gray-900">Ativo e Operacional</p>
+                </div>
+                <p class="text-sm text-gray-600">Seu agente está pronto para processar solicitações 24/7</p>
+              </div>
+
+              <div>
+                <label class="block text-gray-900 font-semibold mb-2">Tipo</label>
+                <p class="text-base text-gray-700" id="agenteType">Financeiro</p>
+              </div>
+
+              <div>
+                <label class="block text-gray-900 font-semibold mb-2">Data de Criação</label>
+                <p class="text-base text-gray-700">2 de Março de 2026</p>
+              </div>
+
+              <div>
+                <label class="block text-gray-900 font-semibold mb-2">Versão do Modelo</label>
+                <p class="text-base text-gray-700">Nux v1.0 (GPT-4 Turbo)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Treinar Section (Hidden by default) -->
+          <div id="treinarSection" class="p-8 hidden">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Treinar seu Nux</h2>
+              <p class="text-gray-600">Melhore o desempenho com dados e exemplos</p>
+            </div>
+
+            <div class="max-w-2xl space-y-6">
+              <!-- Upload de Dados -->
+              <div>
+                <label class="block text-gray-900 font-semibold mb-3">Adicionar Conhecimento</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-nuxter-green hover:bg-green-50 transition cursor-pointer">
+                  <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
+                  <p class="text-gray-700 font-medium">Arraste arquivos aqui</p>
+                  <p class="text-sm text-gray-500 mt-1">PDF, TXT, CSV ou DOCX</p>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Máximo 50MB por arquivo</p>
+              </div>
+
+              <!-- Exemplos de Treinamento -->
+              <div>
+                <label class="block text-gray-900 font-semibold mb-3">Exemplos de Treinamento</label>
+                <div class="space-y-3">
+                  <div class="p-4 border border-gray-300 rounded-lg hover:border-nuxter-green hover:bg-green-50 transition">
+                    <p class="text-sm font-medium text-gray-900">Adicionar entrada de treinamento</p>
+                    <p class="text-xs text-gray-500">Treinar com exemplos de interações reais</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dados de Treinamento -->
+              <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p class="text-sm font-semibold text-blue-900 mb-2"><i class="fas fa-info-circle mr-2"></i>Dados de Treinamento</p>
+                <p class="text-xs text-blue-800">Os dados carregados são processados de forma privada e nunca compartilhados com terceiros</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ferramentas Section (Hidden by default) -->
+          <div id="ferramentasSection" class="p-8 hidden">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Ferramentas e Integrações</h2>
+              <p class="text-gray-600">Conecte ferramentas para ampliar capacidades</p>
+            </div>
+
+            <div class="max-w-2xl space-y-4">
+              <!-- API Integration -->
+              <div class="p-6 border border-gray-300 rounded-xl hover:border-nuxter-green/50 transition">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <i class="fas fa-server text-blue-600 text-lg"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">API Rest</h3>
+                      <p class="text-sm text-gray-600">Conecte seus sistemas</p>
+                    </div>
+                  </div>
+                  <button class="px-3 py-1 text-xs font-semibold border border-gray-300 rounded-lg hover:bg-gray-100 transition">Adicionar</button>
+                </div>
+              </div>
+
+              <!-- Database Integration -->
+              <div class="p-6 border border-gray-300 rounded-xl hover:border-nuxter-green/50 transition">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                      <i class="fas fa-database text-yellow-600 text-lg"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">Bancos de Dados</h3>
+                      <p class="text-sm text-gray-600">MySQL, PostgreSQL, MongoDB</p>
+                    </div>
+                  </div>
+                  <button class="px-3 py-1 text-xs font-semibold border border-gray-300 rounded-lg hover:bg-gray-100 transition">Adicionar</button>
+                </div>
+              </div>
+
+              <!-- CRM Integration -->
+              <div class="p-6 border border-gray-300 rounded-xl hover:border-nuxter-green/50 transition">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                      <i class="fas fa-briefcase text-purple-600 text-lg"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">CRM</h3>
+                      <p class="text-sm text-gray-600">Salesforce, Pipedrive, HubSpot</p>
+                    </div>
+                  </div>
+                  <button class="px-3 py-1 text-xs font-semibold border border-gray-300 rounded-lg hover:bg-gray-100 transition">Adicionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <script>
+      // ===== CONFIGURAÇÃO DO TEMPERATURANAV =====
+      const tempSlider = document.getElementById('configTemperatura');
+      const tempValue = document.getElementById('tempValue');
+      if (tempSlider) {
+        tempSlider.addEventListener('input', () => {
+          tempValue.textContent = tempSlider.value + '%';
+        });
+      }
+
+      // ===== GERENCIAMENTO DE MODAIS =====
+      const testarButtons = document.querySelectorAll('#btnTestarGrátis, #btnTestarGrátis2, #btnTestarGrátis3');
+      const testarModal = document.getElementById('testarModal');
+      const testarModalCard = document.getElementById('testarModalCard');
+      const fecharModalTestar = document.getElementById('fecharModalTestar');
+      const configModal = document.getElementById('configModal');
+      const fecharConfigModal = document.getElementById('fecharConfigModal');
+      const agentDashboard = document.getElementById('agentDashboard');
+
+      const nomesPorTipo = {
+        financeiro: 'Agente Financeiro',
+        cobranca: 'Agente de Cobrança',
+        compras: 'Agente de Compras',
+        rh: 'Agente de RH',
+        suporte: 'Agente de Suporte',
+        custom: 'Agente Personalizado'
+      };
+
+      function abrirModalTestar() {
+        testarModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+          testarModalCard.classList.remove('scale-95', 'opacity-0');
+          testarModalCard.classList.add('scale-100', 'opacity-100');
+        }, 10);
+      }
+
+      function fecharModal() {
+        testarModalCard.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+          testarModal.classList.add('hidden');
+          document.body.style.overflow = '';
+        }, 300);
+      }
+
+      testarButtons.forEach(btn => btn.addEventListener('click', abrirModalTestar));
+      fecharModalTestar.addEventListener('click', fecharModal);
+      testarModal.addEventListener('click', (e) => {
+        if (e.target === testarModal) fecharModal();
+      });
+
+      // ===== SELEÇÃO DE TIPO DE AGENTE =====
+      const agentTypeBtns = document.querySelectorAll('.agent-type-btn');
+      agentTypeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tipo = btn.getAttribute('data-tipo');
+          
+          // Atualizar nome no modal de configuração
+          document.getElementById('configTipoIA').textContent = nomesPorTipo[tipo] || 'Agente Custom';
+          document.getElementById('configNomeIA').value = nomesPorTipo[tipo] || 'Meu Funcionário Digital';
+          document.getElementById('previewNomeIA').textContent = nomesPorTipo[tipo] || 'Meu Funcionário Digital';
+          
+          // Fechar modal de seleção e abrir de configuração
+          fecharModal();
+          
+          // Aguardar a animação de fechamento antes de abrir o próximo
+          setTimeout(() => {
+            configModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+          }, 350);
+        });
+      });
+
+      // ===== ATUALIZAR PREVIEW AO DIGITAR NOME =====
+      const nomeInput = document.getElementById('configNomeIA');
+      if (nomeInput) {
+        nomeInput.addEventListener('input', () => {
+          document.getElementById('previewNomeIA').textContent = nomeInput.value || 'Meu Funcionário Digital';
+        });
+      }
+
+      // ===== FECHAR MODAL DE CONFIGURAÇÃO =====
+      fecharConfigModal.addEventListener('click', () => {
+        configModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+
+      document.getElementById('btnCancelarConfig').addEventListener('click', () => {
+        configModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+
+      // ===== INICIAR TESTE / CRIAR AGENTE =====
+      document.getElementById('btnSalvarConfig').addEventListener('click', () => {
+        const nomeIA = document.getElementById('configNomeIA').value;
+        const tipo = document.getElementById('configTipoIA').textContent;
+        
+        console.log('Agente criado:', {
+          nome: nomeIA,
+          tipo: tipo,
+          criatividade: document.getElementById('configTemperatura').value,
+          idioma: document.getElementById('configIdioma').value,
+          velocidade: document.getElementById('configVelocidade').value,
+          instrucoes: document.getElementById('configInstrucoes').value
+        });
+
+        // Atualizar nome na dashboard
+        document.getElementById('dashboardAgentName').textContent = nomeIA;
+
+        configModal.classList.add('hidden');
+        
+        // Aguardar e abrir dashboard
+        setTimeout(() => {
+          agentDashboard.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }, 300);
+      });
+
+      // ===== FECHAR DASHBOARD =====
+      document.getElementById('btnFecharDashboard').addEventListener('click', () => {
+        agentDashboard.classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+
+      // ===== NAVEGAÇÃO DASHBOARD =====
+      const dashSidebarBtns = agentDashboard.querySelectorAll('.navDashBtn');
+      const historicoSection = document.getElementById('historicoSection');
+      const agenteSection = document.getElementById('agenteSection');
+      const treinarSection = document.getElementById('treinarSection');
+      const ferramentasSection = document.getElementById('ferramentasSection');
+      const integracoesSection = document.getElementById('integracoesSection');
+      const configuracoesSection = document.getElementById('configuracoesSection');
+
+      dashSidebarBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const section = btn.getAttribute('data-section');
+          
+          // Remover active de todos
+          dashSidebarBtns.forEach(b => {
+            b.classList.remove('bg-nuxter-green/10', 'text-nuxter-green');
+            b.classList.add('text-gray-700');
+          });
+          
+          // Adicionar active no clicado
+          btn.classList.add('bg-nuxter-green/10', 'text-nuxter-green');
+          btn.classList.remove('text-gray-700');
+          
+          // Esconder todas as seções
+          historicoSection.classList.add('hidden');
+          agenteSection.classList.add('hidden');
+          treinarSection.classList.add('hidden');
+          ferramentasSection.classList.add('hidden');
+          integracoesSection.classList.add('hidden');
+          configuracoesSection.classList.add('hidden');
+          
+          // Mostrar seção selecionada
+          if (section === 'historico') historicoSection.classList.remove('hidden');
+          else if (section === 'agente') agenteSection.classList.remove('hidden');
+          else if (section === 'treinar') treinarSection.classList.remove('hidden');
+          else if (section === 'ferramentas') ferramentasSection.classList.remove('hidden');
+          else if (section === 'integracoes') integracoesSection.classList.remove('hidden');
+          else if (section === 'configuracoes') configuracoesSection.classList.remove('hidden');
+        });
+      });
+
+      // ===== MENU MOBILE TOGGLE =====
+      const menuBtn = document.getElementById('menuBtn');
+      const menuMobile = document.getElementById('menuMobile');
+      const menuIcon = document.getElementById('menuIcon');
+
+      if (menuBtn && menuMobile) {
+        menuBtn.addEventListener('click', () => {
+          const isHidden = menuMobile.classList.contains('hidden');
+          if (isHidden) {
+            menuMobile.classList.remove('hidden');
+            menuIcon.className = 'fas fa-times';
+          } else {
+            menuMobile.classList.add('hidden');
+            menuIcon.className = 'fas fa-bars';
+          }
+        });
+
+        document.querySelectorAll('#menuMobile a').forEach(link => {
+          link.addEventListener('click', () => {
+            menuMobile.classList.add('hidden');
+            menuIcon.className = 'fas fa-bars';
+          });
+        });
+      }
+
+      // ===== SMOOTH SCROLL =====
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          if (href !== '#' && document.querySelector(href)) {
+            e.preventDefault();
+            document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // ===== PARALLAX =====
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.hero-bg');
+        parallaxElements.forEach(el => {
+          el.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+      });
+
+      // ===== SCROLL REVEAL =====
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.classList.add('animate-fade-in-up');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.section-reveal').forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
+      });
+    </script>
+</body>
+</html>
